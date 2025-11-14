@@ -11,11 +11,11 @@ public class ObjectiveDAO {
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public JsonNode fetchObjective(String objectiveGithubUrl) {
+    public JsonNode fetchObjectives(String objectiveGithubUrl) {
         try {
-            String objectiveJson = restTemplate.getForObject(objectiveGithubUrl, String.class);
+            String objectivesJson = restTemplate.getForObject(objectiveGithubUrl, String.class);
 
-            return objectMapper.readTree(objectiveJson);
+            return objectMapper.readTree(objectivesJson);
         } catch (Exception e) {
             throw new RuntimeException("Failed to fetch or parse Objective json-file");
         }
@@ -23,7 +23,7 @@ public class ObjectiveDAO {
 
     // --Print data for test--
     public void printFetchedObjectives(String url) {
-        JsonNode jsonNode = fetchObjective(url);
+        JsonNode jsonNode = fetchObjectives(url);
         System.out.println(jsonNode.toPrettyString());
     }
 
