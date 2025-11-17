@@ -46,8 +46,16 @@ public class TechniqueDAO {
     }
 
     public void printMappedTechniques(String url) {
-        List<TechniqueMapper.NewTechnique> techniques = mapFetchedTechniques(url);
-        System.out.println(techniques);
+        try {
+            List<TechniqueMapper.NewTechnique> techniques = mapFetchedTechniques(url);
+            String techniquesJson = objectMapper
+                    .writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(techniques);
+
+            System.out.println(techniquesJson);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to print techniques in Json", e);
+        }
     }
 
 //    //--Fetch data to print
