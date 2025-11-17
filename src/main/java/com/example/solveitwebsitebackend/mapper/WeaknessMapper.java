@@ -7,7 +7,7 @@ import java.util.List;
 
 public class WeaknessMapper {
 
-    public class RiskNames {
+    public static class RiskNames {
         public static final String risk1 = "INCOMP";
         public static final String risk2 = "INAC-EX";
         public static final String risk3 = "INAC-AS";
