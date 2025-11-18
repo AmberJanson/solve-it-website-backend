@@ -2,6 +2,7 @@ package com.example.solveitwebsitebackend.service;
 
 import com.example.solveitwebsitebackend.dao.MitigationDAO;
 import com.example.solveitwebsitebackend.mapper.MitigationMapper;
+import jakarta.annotation.PostConstruct;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class MitigationService {
         this.dao = dao;
     }
 
+    @PostConstruct
     @Scheduled(cron = "0 0 0 * * *")
     public void refreshCache() {
         System.out.println("Refreshing cache...");
