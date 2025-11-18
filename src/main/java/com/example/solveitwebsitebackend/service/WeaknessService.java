@@ -20,7 +20,7 @@ public class WeaknessService {
         this.dao = dao;
     }
 
-    @Scheduled(cron = "0 19 11 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void refreshCache() {
         System.out.println("Refreshing cache...");
 
