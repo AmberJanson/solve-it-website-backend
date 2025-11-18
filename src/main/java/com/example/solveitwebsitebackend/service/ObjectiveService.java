@@ -14,7 +14,6 @@ public class ObjectiveService {
 
     private final ObjectiveDAO dao;
 
-
     private Map<String, ObjectiveMapper.NewObjective> objectiveCache = new HashMap<>();
 
     public ObjectiveService(ObjectiveDAO dao) {
