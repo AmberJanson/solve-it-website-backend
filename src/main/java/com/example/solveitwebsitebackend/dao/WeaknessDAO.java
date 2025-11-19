@@ -1,10 +1,13 @@
 package com.example.solveitwebsitebackend.dao;
 
+import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
 import com.example.solveitwebsitebackend.mapper.WeaknessMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -53,10 +56,11 @@ public class WeaknessDAO {
                     .writeValueAsString(weaknesses);
 
             System.out.println(weaknessJson);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to print weaknesses in Json", e);
+        } catch (RestClientException e) {
+            throw new DAOExceptions.FetchException("Failed to fetch Objective JSON", e);
+        } catch (JsonProcessingException e) {
+            throw new DAOExceptions.ParseException("Failed to parse Objective JSON", e);
         }
-
     }
 
 //    //--Fetch data to print--

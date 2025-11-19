@@ -2,11 +2,13 @@ package com.example.solveitwebsitebackend.dao;
 
 import java.util.List;
 
+import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
 import com.example.solveitwebsitebackend.mapper.ObjectiveMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Repository
@@ -20,8 +22,10 @@ public class ObjectiveDAO {
             String objectivesJson = restTemplate.getForObject(objectivesGithubUrl, String.class);
             JavaType objectivesType = objectMapper.getTypeFactory().constructCollectionType(List.class, ObjectiveMapper.RawObjective.class);
             return objectMapper.readValue(objectivesJson, objectivesType);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to fetch or parse Objective json-file", e);
+        } catch (RestClientException e) {
+            throw new DAOExceptions.FetchException("Failed to fetch Objective JSON", e);
+        } catch (JsonProcessingException e) {
+            throw new DAOExceptions.ParseException("Failed to parse Objective JSON", e);
         }
     }
 
