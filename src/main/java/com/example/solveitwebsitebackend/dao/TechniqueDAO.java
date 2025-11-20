@@ -39,9 +39,9 @@ public class TechniqueDAO {
 
             return techniques;
         } catch (RestClientException e) {
-            throw new DAOExceptions.FetchException("Failed to fetch Objective JSON", e);
+            throw new DAOExceptions.FetchException("Failed to fetch Technique JSON", e);
         } catch (JsonProcessingException e) {
-            throw new DAOExceptions.ParseException("Failed to parse Objective JSON", e);
+            throw new DAOExceptions.ParseException("Failed to parse Technique JSON", e);
         }
     }
 

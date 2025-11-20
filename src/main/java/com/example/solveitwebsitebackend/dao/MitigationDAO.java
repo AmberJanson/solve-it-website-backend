@@ -57,9 +57,9 @@ public class MitigationDAO {
 
             System.out.println(mitigationJson);
         } catch (RestClientException e) {
-            throw new DAOExceptions.FetchException("Failed to fetch Objective JSON", e);
+            throw new DAOExceptions.FetchException("Failed to fetch Mitigation JSON", e);
         } catch (JsonProcessingException e) {
-            throw new DAOExceptions.ParseException("Failed to parse Objective JSON", e);
+            throw new DAOExceptions.ParseException("Failed to parse Mitigation JSON", e);
         }
     }
 
