@@ -1,9 +1,8 @@
 package com.example.solveitwebsitebackend.service;
 
 import com.example.solveitwebsitebackend.dao.MitigationDAO;
+import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
 import com.example.solveitwebsitebackend.mapper.MitigationMapper;
-import jakarta.annotation.PostConstruct;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,19 +20,40 @@ public class MitigationService {
         this.dao = dao;
     }
 
-    @PostConstruct
-    @Scheduled(cron = "0 0 0 * * *")
     public void refreshCache() {
-        System.out.println("Refreshing cache...");
 
-        List<MitigationMapper.NewMitigation> mitigations = dao.mapFetchedMitigations("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/mitigations/");
-        mitigationCache.clear();
+        int maxRetries = 3;
+        int attempts = 0;
 
-        for (MitigationMapper.NewMitigation mitigation : mitigations) {
-            mitigationCache.put(mitigation.id, mitigation);
+        while (attempts < maxRetries) {
+            attempts++;
+
+            try {
+                System.out.println("Attempt " + attempts + " to refresh mitigations cache...");
+
+                List<MitigationMapper.NewMitigation> mitigations = dao.mapFetchedMitigations("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/mitigations/");
+
+                Map<String, MitigationMapper.NewMitigation> newCache = new HashMap<>();
+                for (MitigationMapper.NewMitigation mitigation : mitigations) {
+                    newCache.put(mitigation.id, mitigation);
+                }
+
+                mitigationCache = newCache;
+
+                System.out.println("Successfully updated mitigations cache!");
+                return;
+            } catch (DAOExceptions.FetchException | DAOExceptions.ParseException e) {
+                System.err.println("Refresh failed on attempt " + attempts + ": " + e.getMessage());
+
+                if (attempts >= maxRetries) {
+                    System.err.println("All retries failed. Keeping existing mitigations cache.");
+                } else {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ignored) {}
+                }
+            }
         }
-
-        System.out.println("Successfully updated cache!");
     }
 
     public MitigationMapper.NewMitigation getMitigationById(String id) {

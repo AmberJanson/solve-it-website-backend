@@ -1,9 +1,8 @@
 package com.example.solveitwebsitebackend.service;
 
 import com.example.solveitwebsitebackend.dao.TechniqueDAO;
+import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
 import com.example.solveitwebsitebackend.mapper.TechniqueMapper;
-import jakarta.annotation.PostConstruct;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,19 +20,41 @@ public class TechniqueService {
         this.dao = dao;
     }
 
-    @PostConstruct
-    @Scheduled(cron = "0 0 0 * * *")
     public void refreshCache() {
-        System.out.println("Refreshing cache...");
 
-        List<TechniqueMapper.NewTechnique> techniques = dao.mapFetchedTechniques("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/techniques/");
-        techniqueCache.clear();
+        int maxRetries = 3;
+        int attempts = 0;
 
-        for (TechniqueMapper.NewTechnique technique : techniques) {
-            techniqueCache.put(technique.id, technique);
+        while (attempts < maxRetries) {
+            attempts++;
+
+            try {
+                System.out.println("Attempt " + attempts + " to refresh techniques cache...");
+
+                List<TechniqueMapper.NewTechnique> techniques = dao.mapFetchedTechniques("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/techniques/");
+
+                Map<String, TechniqueMapper.NewTechnique> newCache  = new HashMap<>();
+                for (TechniqueMapper.NewTechnique technique : techniques) {
+                    newCache.put(technique.id, technique);
+                }
+
+                techniqueCache = newCache;
+
+                System.out.println("Successfully updated techniques cache!");
+                return;
+            } catch (DAOExceptions.FetchException | DAOExceptions.ParseException e) {
+                System.err.println("Refresh failed on attempt " + attempts + ": " + e.getMessage());
+
+                if (attempts >= maxRetries) {
+                    System.err.println("All retries failed. Keeping existing techniques cache.");
+                } else {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+            }
         }
-
-        System.out.println("Successfully updated cache!");
     }
 
     public TechniqueMapper.NewTechnique getTechniqueById(String id) {

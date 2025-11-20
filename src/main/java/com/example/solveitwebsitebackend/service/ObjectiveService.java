@@ -1,9 +1,8 @@
 package com.example.solveitwebsitebackend.service;
 
 import com.example.solveitwebsitebackend.dao.ObjectiveDAO;
+import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
 import com.example.solveitwebsitebackend.mapper.ObjectiveMapper;
-import jakarta.annotation.PostConstruct;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,19 +20,41 @@ public class ObjectiveService {
         this.dao = dao;
     }
 
-    @PostConstruct
-    @Scheduled(cron = "0 0 0 * * *")
     public void refreshCache() {
-        System.out.println("Refreshing cache...");
 
-        List<ObjectiveMapper.NewObjective> objectives = dao.mapFetchedObjectives("https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json");
-        objectiveCache.clear();
+        int maxRetries = 3;
+        int attempts = 0;
 
-        for (ObjectiveMapper.NewObjective objective : objectives) {
-            objectiveCache.put(objective.id, objective);
+        while (attempts < maxRetries) {
+            attempts++;
+
+            try {
+                System.out.println("Attempt " + attempts + " to refresh objectives cache...");
+
+                List<ObjectiveMapper.NewObjective> objectives = dao.mapFetchedObjectives("https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json");
+
+                Map<String, ObjectiveMapper.NewObjective> newCache = new HashMap<>();
+                for (ObjectiveMapper.NewObjective objective : objectives) {
+                    newCache.put(objective.id, objective);
+                }
+
+                objectiveCache = newCache;
+
+                System.out.println("Successfully updated objectives cache!");
+                return;
+
+            } catch (DAOExceptions.FetchException | DAOExceptions.ParseException e) {
+                System.err.println("Refresh failed on attempt " + attempts + ": " + e.getMessage());
+
+                if (attempts >= maxRetries) {
+                    System.err.println("All retries failed. Keeping existing objectives cache.");
+                } else {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ignored) {}
+                }
+            }
         }
-
-        System.out.println("Successfully updated cache!");
     }
 
     public ObjectiveMapper.NewObjective getObjectiveById(String id) {
