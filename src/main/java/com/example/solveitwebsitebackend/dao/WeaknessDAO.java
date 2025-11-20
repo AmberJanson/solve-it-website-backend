@@ -38,8 +38,10 @@ public class WeaknessDAO {
             }
 
             return weaknesses;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to fetch weaknesses dynamically");
+        } catch (RestClientException e) {
+            throw new DAOExceptions.FetchException("Failed to fetch Weakness JSON", e);
+        } catch (JsonProcessingException e) {
+            throw new DAOExceptions.ParseException("Failed to parse Weakness JSON", e);
         }
     }
 
@@ -56,10 +58,8 @@ public class WeaknessDAO {
                     .writeValueAsString(weaknesses);
 
             System.out.println(weaknessJson);
-        } catch (RestClientException e) {
-            throw new DAOExceptions.FetchException("Failed to fetch Weakness JSON", e);
-        } catch (JsonProcessingException e) {
-            throw new DAOExceptions.ParseException("Failed to parse Weakness JSON", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to print weaknesses in Json", e);
         }
     }
 

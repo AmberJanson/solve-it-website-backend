@@ -38,8 +38,10 @@ public class MitigationDAO {
             }
 
             return mitigations;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to fetch mitigations dynamically");
+        } catch (RestClientException e) {
+            throw new DAOExceptions.FetchException("Failed to fetch Mitigation JSON", e);
+        } catch (JsonProcessingException e) {
+            throw new DAOExceptions.ParseException("Failed to parse Mitigation JSON", e);
         }
     }
 
@@ -56,10 +58,8 @@ public class MitigationDAO {
                     .writeValueAsString(mitigations);
 
             System.out.println(mitigationJson);
-        } catch (RestClientException e) {
-            throw new DAOExceptions.FetchException("Failed to fetch Mitigation JSON", e);
-        } catch (JsonProcessingException e) {
-            throw new DAOExceptions.ParseException("Failed to parse Mitigation JSON", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to print mitigations in Json", e);
         }
     }
 
