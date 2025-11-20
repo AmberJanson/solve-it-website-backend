@@ -3,7 +3,9 @@ package com.example.solveitwebsitebackend.service;
 import com.example.solveitwebsitebackend.dao.MitigationDAO;
 import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
 import com.example.solveitwebsitebackend.mapper.MitigationMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +59,11 @@ public class MitigationService {
     }
 
     public MitigationMapper.NewMitigation getMitigationById(String id) {
-        return mitigationCache.get(id);
+        MitigationMapper.NewMitigation mitigation = mitigationCache.get(id);
+        if (mitigation == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't find a Mitigation with id: " + id);
+        }
+        return mitigation;
     }
 
     public Map<String, MitigationMapper.NewMitigation> getAllMitigations() {

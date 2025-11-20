@@ -3,7 +3,9 @@ package com.example.solveitwebsitebackend.service;
 import com.example.solveitwebsitebackend.dao.WeaknessDAO;
 import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
 import com.example.solveitwebsitebackend.mapper.WeaknessMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +59,11 @@ public class WeaknessService {
     }
 
     public WeaknessMapper.NewWeakness getWeaknessById(String id) {
-        return weaknessCache.get(id);
+        WeaknessMapper.NewWeakness weakness = weaknessCache.get(id);
+        if (weakness == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't find a Weakness with id: " + id);
+        }
+        return weakness;
     }
 
     public Map<String, WeaknessMapper.NewWeakness> getAllWeaknesses() {

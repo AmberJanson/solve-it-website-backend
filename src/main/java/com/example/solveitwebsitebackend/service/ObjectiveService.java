@@ -3,7 +3,9 @@ package com.example.solveitwebsitebackend.service;
 import com.example.solveitwebsitebackend.dao.ObjectiveDAO;
 import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
 import com.example.solveitwebsitebackend.mapper.ObjectiveMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +60,11 @@ public class ObjectiveService {
     }
 
     public ObjectiveMapper.NewObjective getObjectiveById(String id) {
-        return objectiveCache.get(id);
+        ObjectiveMapper.NewObjective objective = objectiveCache.get(id);
+        if (objective == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't find an Objective with id: " + id);
+        }
+        return objective;
     }
 
     public Map<String, ObjectiveMapper.NewObjective> getAllObjectives() {

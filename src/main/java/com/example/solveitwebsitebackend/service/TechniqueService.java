@@ -3,7 +3,9 @@ package com.example.solveitwebsitebackend.service;
 import com.example.solveitwebsitebackend.dao.TechniqueDAO;
 import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
 import com.example.solveitwebsitebackend.mapper.TechniqueMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +60,11 @@ public class TechniqueService {
     }
 
     public TechniqueMapper.NewTechnique getTechniqueById(String id) {
-        return techniqueCache.get(id);
+        TechniqueMapper.NewTechnique technique = techniqueCache.get(id);
+        if (technique == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't find a Technique with id " + id);
+        }
+        return technique;
     }
 
     public Map<String, TechniqueMapper.NewTechnique> getAllTechniques() {
