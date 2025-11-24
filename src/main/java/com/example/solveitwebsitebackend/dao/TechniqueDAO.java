@@ -18,7 +18,7 @@ import java.util.List;
 @Repository
 public class TechniqueDAO {
 
-    private static final  Logger log = LoggerFactory.getLogger(TechniqueDAO.class);
+    private static final Logger log = LoggerFactory.getLogger(TechniqueDAO.class);
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
