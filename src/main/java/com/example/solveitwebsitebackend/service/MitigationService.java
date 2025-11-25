@@ -22,7 +22,7 @@ public class MitigationService {
         this.dao = dao;
     }
 
-    public void refreshCache() {
+    public void refreshCache(String githubUrl) {
 
         int maxRetries = 3;
         int attempts = 0;
@@ -33,7 +33,7 @@ public class MitigationService {
             try {
                 System.out.println("Attempt " + attempts + " to refresh mitigations cache...");
 
-                List<MitigationMapper.NewMitigation> mitigations = dao.mapFetchedMitigations("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/mitigations/");
+                List<MitigationMapper.NewMitigation> mitigations = dao.mapFetchedMitigations(githubUrl);
 
                 Map<String, MitigationMapper.NewMitigation> newCache = new HashMap<>();
                 for (MitigationMapper.NewMitigation mitigation : mitigations) {
