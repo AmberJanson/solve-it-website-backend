@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -16,32 +18,43 @@ import java.util.List;
 @Repository
 public class MitigationDAO {
 
+    private static final Logger log = LoggerFactory.getLogger(MitigationDAO.class);
+
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public List<MitigationMapper.RawMitigation> fetchRawMitigations(String mitigationGithubUrl) {
         try {
-            JsonNode filesArray = objectMapper.readTree(restTemplate.getForObject(mitigationGithubUrl, String.class));
+            String response = restTemplate.getForObject(mitigationGithubUrl, String.class);
+            JsonNode filesArray = objectMapper.readTree(response);
 
             List<MitigationMapper.RawMitigation> mitigations = new ArrayList<>();
 
             for (JsonNode fileNode : filesArray) {
-                if ("file".equals(fileNode.get("type").asText()) && fileNode.get("name").asText().endsWith(".json")) {
-                    String singleUrl = fileNode.get("download_url").asText();
+                if (!"file".equals(fileNode.path("type").asText())) continue;
+                if (!fileNode.path("name").asText().endsWith(".json")) continue;
 
+                String singleUrl = fileNode.get("download_url").asText();
+
+                try {
                     String mitigationJson = restTemplate.getForObject(singleUrl, String.class);
                     JavaType mitigationType = objectMapper.getTypeFactory().constructType(MitigationMapper.RawMitigation.class);
 
                     MitigationMapper.RawMitigation rawMitigation = objectMapper.readValue(mitigationJson, mitigationType);
                     mitigations.add(rawMitigation);
+                }catch (RestClientException e) {
+                    log.warn("Skipping Mitigation due to fetch error", e);
+                } catch (JsonProcessingException e) {
+                    log.warn("Skipping Mitigation due to parse error", e);
                 }
             }
 
             return mitigations;
+
         } catch (RestClientException e) {
-            throw new DAOExceptions.FetchException("Failed to fetch Mitigation JSON", e);
+            throw new DAOExceptions.FetchException("Failed to fetch Mitigation filesArray JSON", e);
         } catch (JsonProcessingException e) {
-            throw new DAOExceptions.ParseException("Failed to parse Mitigation JSON", e);
+            throw new DAOExceptions.ParseException("Failed to parse Mitigation filesArray JSON", e);
         }
     }
 
