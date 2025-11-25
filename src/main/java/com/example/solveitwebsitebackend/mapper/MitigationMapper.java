@@ -17,11 +17,11 @@ public class MitigationMapper {
 
         public RawMitigation() {}
 
-        public RawMitigation(String id, String name, String technique, String technqiue, List<String> references) {
+        public RawMitigation(String id, String name, String technique, String techqniue, List<String> references) {
             this.id = id;
             this.name = name;
             this.technique = technique;
-            this.techqniue = technqiue;
+            this.techqniue = techqniue;
             this.references = references;
         }
     }
