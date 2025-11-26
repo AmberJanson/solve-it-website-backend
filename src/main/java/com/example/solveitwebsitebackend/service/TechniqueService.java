@@ -62,7 +62,7 @@ public class TechniqueService {
     public TechniqueMapper.NewTechnique getTechniqueById(String id) {
         TechniqueMapper.NewTechnique technique = techniqueCache.get(id);
         if (technique == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't find a Technique with id " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't find a Technique with id: " + id);
         }
         return technique;
     }
