@@ -101,7 +101,7 @@ public class TestObjectiveService {
     }
 
     @Test
-    public void should_throw_NOT_FOUND_exception_when_Objective__with_id_does_not_exist() {
+    public void should_throw_NOT_FOUND_exception_when_Objective_with_id_does_not_exist() {
         String invalidId = "invalid_id";
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> objectiveService.getObjectiveById(invalidId));

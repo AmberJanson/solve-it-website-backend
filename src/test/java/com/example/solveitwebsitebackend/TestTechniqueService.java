@@ -117,7 +117,7 @@ public class TestTechniqueService {
     }
 
     @Test
-    public void should_throw_NOT_FOUND_exception_when_Technique__with_id_does_not_exist() {
+    public void should_throw_NOT_FOUND_exception_when_Technique_with_id_does_not_exist() {
         String invalidId = "invalid_id";
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> techniqueService.getTechniqueById(invalidId));
