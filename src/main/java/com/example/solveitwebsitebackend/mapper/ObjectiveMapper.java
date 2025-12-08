@@ -8,7 +8,7 @@ public class ObjectiveMapper {
     private static final AtomicInteger COUNTER = new AtomicInteger(1000);
 
     private static String generateID() {
-        return "O" + COUNTER.getAndIncrement();
+        return "C" + COUNTER.getAndIncrement();
     }
 
     public static class RawObjective {

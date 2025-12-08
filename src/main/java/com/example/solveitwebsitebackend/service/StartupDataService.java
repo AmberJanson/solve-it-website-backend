@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StartupDataService {
 
+    @Autowired CategoryViewService categoryViewService;
     @Autowired ObjectiveService objectiveService;
     @Autowired TechniqueService techniqueService;
     @Autowired WeaknessService weaknessService;
@@ -19,6 +20,7 @@ public class StartupDataService {
     public void loadAllData() {
         System.out.println("Loading all entity caches...");
 
+        categoryViewService.refreshCache("json/CategoryView.json");
         objectiveService.refreshCache("https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json");
         techniqueService.refreshCache("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/techniques/");
         weaknessService.refreshCache("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/weaknesses/");
