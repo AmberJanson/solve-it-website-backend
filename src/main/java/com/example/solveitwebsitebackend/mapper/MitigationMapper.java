@@ -11,13 +11,17 @@ public class MitigationMapper {
         public String techqniue; //Because of typo
         public List<String> references;
 
+        public String getUnifiedTechnique() {
+            return (technique != null) ? technique : techqniue;
+        }
+
         public RawMitigation() {}
 
-        public RawMitigation(String id, String name, String technique, String technqiue, List<String> references) {
+        public RawMitigation(String id, String name, String technique, String techqniue, List<String> references) {
             this.id = id;
             this.name = name;
             this.technique = technique;
-            this.techqniue = technqiue;
+            this.techqniue = techqniue;
             this.references = references;
         }
     }
@@ -37,17 +41,10 @@ public class MitigationMapper {
     }
 
     public static NewMitigation map(RawMitigation raw) {
-        String technique;
-        if (raw.techqniue != null && raw.technique == null) {
-            technique = raw.techqniue;
-        } else {
-            technique = raw.technique;
-        }
-
         return new NewMitigation(
                 raw.id,
                 raw.name,
-                technique,
+                raw.getUnifiedTechnique(),
                 raw.references
         );
     }

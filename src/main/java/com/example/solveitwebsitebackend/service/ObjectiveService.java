@@ -22,7 +22,7 @@ public class ObjectiveService {
         this.dao = dao;
     }
 
-    public void refreshCache() {
+    public void refreshCache(String githubUrl) {
 
         int maxRetries = 3;
         int attempts = 0;
@@ -33,7 +33,7 @@ public class ObjectiveService {
             try {
                 System.out.println("Attempt " + attempts + " to refresh objectives cache...");
 
-                List<ObjectiveMapper.NewObjective> objectives = dao.mapFetchedObjectives("https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json");
+                List<ObjectiveMapper.NewObjective> objectives = dao.mapFetchedObjectives(githubUrl);
 
                 Map<String, ObjectiveMapper.NewObjective> newCache = new HashMap<>();
                 for (ObjectiveMapper.NewObjective objective : objectives) {

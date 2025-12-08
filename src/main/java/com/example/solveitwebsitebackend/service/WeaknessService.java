@@ -22,7 +22,7 @@ public class WeaknessService {
         this.dao = dao;
     }
 
-    public void refreshCache() {
+    public void refreshCache(String githubUrl) {
 
         int maxRetries = 3;
         int attempts = 0;
@@ -33,7 +33,7 @@ public class WeaknessService {
             try {
                 System.out.println("Attempt " + attempts + " to refresh weaknesses cache...");
 
-                List<WeaknessMapper.NewWeakness> weaknesses = dao.mapFetchedWeaknesses("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/weaknesses/");
+                List<WeaknessMapper.NewWeakness> weaknesses = dao.mapFetchedWeaknesses(githubUrl);
 
                 Map<String, WeaknessMapper.NewWeakness> newCache = new HashMap<>();
                 for (WeaknessMapper.NewWeakness weakness : weaknesses) {

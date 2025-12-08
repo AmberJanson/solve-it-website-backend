@@ -22,7 +22,7 @@ public class TechniqueService {
         this.dao = dao;
     }
 
-    public void refreshCache() {
+    public void refreshCache(String githubUrl) {
 
         int maxRetries = 3;
         int attempts = 0;
@@ -33,7 +33,7 @@ public class TechniqueService {
             try {
                 System.out.println("Attempt " + attempts + " to refresh techniques cache...");
 
-                List<TechniqueMapper.NewTechnique> techniques = dao.mapFetchedTechniques("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/techniques/");
+                List<TechniqueMapper.NewTechnique> techniques = dao.mapFetchedTechniques(githubUrl);
 
                 Map<String, TechniqueMapper.NewTechnique> newCache  = new HashMap<>();
                 for (TechniqueMapper.NewTechnique technique : techniques) {
@@ -62,7 +62,7 @@ public class TechniqueService {
     public TechniqueMapper.NewTechnique getTechniqueById(String id) {
         TechniqueMapper.NewTechnique technique = techniqueCache.get(id);
         if (technique == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't find a Technique with id " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't find a Technique with id: " + id);
         }
         return technique;
     }
