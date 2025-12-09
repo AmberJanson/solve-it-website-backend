@@ -1,6 +1,5 @@
 package com.example.solveitwebsitebackend.service;
 
-import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
 import com.example.solveitwebsitebackend.mapper.CategoryViewMap;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,18 +50,16 @@ public class CategoryViewService {
                 System.out.println("Successfully updated categoryView cache!");
                 return;
 
-            } catch (DAOExceptions.FetchException | DAOExceptions.ParseException e) {
+            } catch (Exception e) {
                 System.err.println("Refresh failed on attempt " + attempts + ": " + e.getMessage());
 
                 if (attempts >= maxRetries) {
-                    System.err.println("All retries failed. Keeping existing categoryView cache.");
+                    System.err.println("All retries failed. Keeping existing categoryViews cache.");
                 } else {
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ignored) {}
                 }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
             }
         }
     }
