@@ -3,7 +3,7 @@ package com.example.solveitwebsitebackend.mapper;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ObjectiveMapper {
+public class CategoryMapper {
 
     private static final AtomicInteger COUNTER = new AtomicInteger(1000);
 
@@ -11,27 +11,27 @@ public class ObjectiveMapper {
         return "C" + COUNTER.getAndIncrement();
     }
 
-    public static class RawObjective {
+    public static class RawCategory {
         public String name;
         public String description;
         public List<String> techniques;
 
-        public RawObjective() {}
+        public RawCategory() {}
 
-        public RawObjective(String name, String description, List<String> techniques) {
+        public RawCategory(String name, String description, List<String> techniques) {
             this.name = name;
             this.description = description;
             this.techniques = techniques;
         }
     }
 
-    public static class NewObjective {
+    public static class NewCategory {
         public String id;
         public String name;
         public String description;
         public List<String> techniques;
 
-        public NewObjective(String id, String name, String description, List<String> techniques) {
+        public NewCategory(String id, String name, String description, List<String> techniques) {
             this.id = id;
             this.name = name;
             this.description = description;
@@ -39,8 +39,8 @@ public class ObjectiveMapper {
         }
     }
 
-    public static NewObjective map(RawObjective raw) {
-        return new NewObjective(
+    public static NewCategory map(RawCategory raw) {
+        return new NewCategory(
                 generateID(),
                 raw.name,
                 raw.description,
