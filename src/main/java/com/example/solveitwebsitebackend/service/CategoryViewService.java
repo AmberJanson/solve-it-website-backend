@@ -47,7 +47,7 @@ public class CategoryViewService {
 
                 categoryViewCache = newCache;
 
-                System.out.println("Successfully updated categoryView cache!");
+                System.out.println("Successfully updated categoryViews cache!");
                 return;
 
             } catch (Exception e) {
