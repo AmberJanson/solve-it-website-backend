@@ -8,9 +8,9 @@
   },
   {
     "id": "V1001",
-    "name": "Basic forensic framework",
+    "name": "DFRWS",
     "short_description": "Lorem ipsum",
     "long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec ultricies elit, at sagittis erat. Maecenas vel eleifend massa. Aenean vitae odio dictum, rutrum lectus non, vestibulum mi. Mauris non velit ex. Donec vel rhoncus velit, vel finibus orci. Cras euismod porta ipsum et lobortis. Proin placerat accumsan malesuada. Vestibulum sed eros non turpis tincidunt tristique. Phasellus fermentum mi pharetra, vulputate ante id, placerat purus. Praesent non tincidunt massa, in sollicitudin velit. Nulla ultrices orci tellus, sit amet facilisis quam malesuada vel. In tempor risus vitae lacus condimentum, non tincidunt felis aliquam. Maecenas quis vestibulum ante.",
-    "categories": ["C019"]
+    "categories": ["C1019", "C1020", "C1021", "C1022", "C1023", "C1024", "C1025"]
   }
 ]

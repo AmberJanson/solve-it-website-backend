@@ -6,6 +6,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class StartupDataService {
 
@@ -21,8 +24,13 @@ public class StartupDataService {
     public void loadAllData() {
         System.out.println("Loading all entity caches...");
 
+        List<String> categoryUrls = Arrays.asList(
+                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json",
+                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-examples/refs/heads/main/reorganization_of_techniques/dfrws.json"
+        );
+
         categoryViewService.refreshCache("json/CategoryView.json");
-        categoryService.refreshCache("https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json");
+        categoryService.refreshCache(categoryUrls);
         techniqueService.refreshCache("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/techniques/");
         weaknessService.refreshCache("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/weaknesses/");
         mitigationService.refreshCache("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/mitigations/");

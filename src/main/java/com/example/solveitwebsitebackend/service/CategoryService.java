@@ -22,7 +22,7 @@ public class CategoryService {
         this.dao = dao;
     }
 
-    public void refreshCache(String githubUrl) {
+    public void refreshCache(List<String> githubUrls) {
 
         int maxRetries = 3;
         int attempts = 0;
@@ -33,7 +33,7 @@ public class CategoryService {
             try {
                 System.out.println("Attempt " + attempts + " to refresh categories cache...");
 
-                List<CategoryMapper.NewCategory> categories = dao.mapFetchedCategories(githubUrl);
+                List<CategoryMapper.NewCategory> categories = dao.mapFetchedCategories(githubUrls);
 
                 Map<String, CategoryMapper.NewCategory> newCache = new HashMap<>();
                 for (CategoryMapper.NewCategory category : categories) {
