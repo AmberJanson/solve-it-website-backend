@@ -1,0 +1,16 @@
+[
+  {
+    "id": "id1",
+    "name": "name1",
+    "short_description": "short1",
+    "long_description": "long1",
+    "categories": ["category1", "category2"]
+  },
+  {
+    "id": "id2",
+    "name": "name2",
+    "short_description": "short2",
+    "long_description": "long2",
+    "categories": ["category3", "category4"]
+  }
+]

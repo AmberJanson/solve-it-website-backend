@@ -1,0 +1,16 @@
+[
+  {
+    "id": "V1000",
+    "name": "SOLVE-IT",
+    "short_description": "Lorem ipsum",
+    "long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec ultricies elit, at sagittis erat. Maecenas vel eleifend massa. Aenean vitae odio dictum, rutrum lectus non, vestibulum mi. Mauris non velit ex. Donec vel rhoncus velit, vel finibus orci. Cras euismod porta ipsum et lobortis. Proin placerat accumsan malesuada. Vestibulum sed eros non turpis tincidunt tristique. Phasellus fermentum mi pharetra, vulputate ante id, placerat purus. Praesent non tincidunt massa, in sollicitudin velit. Nulla ultrices orci tellus, sit amet facilisis quam malesuada vel. In tempor risus vitae lacus condimentum, non tincidunt felis aliquam. Maecenas quis vestibulum ante.",
+    "categories": ["C1000", "C1001", "C1002", "C1003", "C1004", "C1005", "C1006", "C1007", "C1008", "C1009", "C1010", "C1011", "C1012", "C1013", "C1014", "C1015", "C1016", "C1017", "C1018"]
+  },
+  {
+    "id": "V1001",
+    "name": "Basic forensic framework",
+    "short_description": "Lorem ipsum",
+    "long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec ultricies elit, at sagittis erat. Maecenas vel eleifend massa. Aenean vitae odio dictum, rutrum lectus non, vestibulum mi. Mauris non velit ex. Donec vel rhoncus velit, vel finibus orci. Cras euismod porta ipsum et lobortis. Proin placerat accumsan malesuada. Vestibulum sed eros non turpis tincidunt tristique. Phasellus fermentum mi pharetra, vulputate ante id, placerat purus. Praesent non tincidunt massa, in sollicitudin velit. Nulla ultrices orci tellus, sit amet facilisis quam malesuada vel. In tempor risus vitae lacus condimentum, non tincidunt felis aliquam. Maecenas quis vestibulum ante.",
+    "categories": ["C019"]
+  }
+]
