@@ -52,8 +52,62 @@ public class TestCategoryService {
     }
 
     @Test
-    public void should_refresh_category_cache_when_refreshCache_is_called() {
+    public void should_retrieve_single_category_cache_when_setRawCache_is_called() {
         String dummyUrl = "https://dummy.com";
+
+        List<String> techniques1 = List.of("technique1", "technique2");
+        CategoryMapper.RawCategory dummyCategory1 = new CategoryMapper.RawCategory("name1", "description1", techniques1);
+
+        List<String> techniques2 = List.of("technique3", "technique4");
+        CategoryMapper.RawCategory dummyCategory2 = new CategoryMapper.RawCategory("name2", "description2", techniques2);
+
+        when(categoryDAO.fetchRawCategories(dummyUrl)).thenReturn(Arrays.asList(dummyCategory1, dummyCategory2));
+
+        Map<String, CategoryMapper.RawCategory> result = categoryService.setRawCache(dummyUrl);
+
+        verify(categoryDAO, times(1)).fetchRawCategories(dummyUrl);
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals(dummyCategory1, result.get("name1"));
+        assertEquals(dummyCategory2, result.get("name2"));
+    }
+
+    @Test
+    public void should_print_error_three_times_and_return_null_when_a_DAOException_is_caught()  {
+        String invalidUrl = "not_a_URL";
+        String exceptionMessage = "Refresh failed on attempt ";
+
+        when(categoryDAO.fetchRawCategories(invalidUrl)).thenThrow(new DAOExceptions.FetchException("Failed to fetch Category JSON", new RestClientException("Failed to fetch")));
+
+        ByteArrayOutputStream errStream = new ByteArrayOutputStream();
+        PrintStream originalErr = System.err;
+        System.setErr(new PrintStream(errStream));
+
+        Map<String, CategoryMapper.RawCategory> result;
+        try {
+            result = categoryService.setRawCache(invalidUrl);
+        } finally {
+            System.setErr(originalErr);
+        }
+
+        verify(categoryDAO, times(3)).fetchRawCategories(invalidUrl);
+
+        String output = errStream.toString();
+        long count = output.lines().filter(line -> line.contains(exceptionMessage)).count();
+        assertEquals(3, count);
+        assertTrue(output.contains("All retries failed. Continue without this categories cache."));
+
+        assertNull(result);
+    }
+
+    @Test
+    public void should_update_category_cache_when_refreshCache_is_called() {
+        CategoryMapper.RawCategory rawCategory1 = new CategoryMapper.RawCategory();
+        CategoryMapper.RawCategory rawCategory2 = new CategoryMapper.RawCategory();
+        Map<String, CategoryMapper.RawCategory> dummyCache = new HashMap<>();
+        dummyCache.put("dummyId1", rawCategory1);
+        dummyCache.put("dummyId2", rawCategory2);
 
         List<String> techniques1 = List.of("technique1", "technique2");
         CategoryMapper.NewCategory dummyCategory1 = new CategoryMapper.NewCategory("id1", "name1", "description1", techniques1);
@@ -61,11 +115,12 @@ public class TestCategoryService {
         List<String> techniques2 = List.of("technique3", "technique4");
         CategoryMapper.NewCategory dummyCategory2 = new CategoryMapper.NewCategory("id2", "name2", "description2", techniques2);
 
-        when(categoryDAO.mapFetchedCategories(dummyUrl)).thenReturn(Arrays.asList(dummyCategory1, dummyCategory2));
 
-        categoryService.refreshCache(dummyUrl);
+        when(categoryDAO.mapFetchedCategories(dummyCache)).thenReturn(Arrays.asList(dummyCategory1, dummyCategory2));
 
-        verify(categoryDAO, times(1)).mapFetchedCategories(dummyUrl);
+        categoryService.refreshCache(dummyCache);
+
+        verify(categoryDAO, times(1)).mapFetchedCategories(dummyCache);
 
         assertNotNull(categoryService.getAllCategories());
         assertEquals(2, categoryService.getAllCategories().size());
@@ -74,28 +129,21 @@ public class TestCategoryService {
     }
 
     @Test
-    public void should_print_error_three_times_and_keep_old_cache_when_a_DAOException_is_caught()  {
-        String invalidUrl = "not_a_URL";
-        String exceptionMessage = "Refresh failed on attempt ";
-
-        when(categoryDAO.mapFetchedCategories(invalidUrl)).thenThrow(new DAOExceptions.FetchException("Failed to fetch Category JSON", new RestClientException("Failed to fetch")));
+    public void should_keep_existing_cache_when_no_single_cache_was_retrieved() {
+        Map<String, CategoryMapper.RawCategory> invalidCache = new HashMap<>();
 
         ByteArrayOutputStream errStream = new ByteArrayOutputStream();
         PrintStream originalErr = System.err;
         System.setErr(new PrintStream(errStream));
 
         try {
-            categoryService.refreshCache(invalidUrl);
+            categoryService.refreshCache(invalidCache);
         } finally {
             System.setErr(originalErr);
         }
 
-        verify(categoryDAO, times(3)).mapFetchedCategories(invalidUrl);
-
         String output = errStream.toString();
-        long count = output.lines().filter(line -> line.contains(exceptionMessage)).count();
-        assertEquals(3, count);
-        assertTrue(output.contains("All retries failed. Keeping existing categories cache."));
+        assertTrue(output.contains("No single cache was retrieved. Keeping existing categories cache"));
 
         assertEquals(oldCache, categoryService.getAllCategories());
     }

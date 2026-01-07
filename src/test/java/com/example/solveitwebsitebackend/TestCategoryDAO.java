@@ -8,12 +8,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -94,18 +97,19 @@ public class TestCategoryDAO {
         assertThat(exception.getCause(), instanceOf(JsonProcessingException.class));
     }
 
-//    @Test
-//    public void should_map_raw_categories_to_new_categories_when_mapFetchedCategories_is_called() {
-//        String dummyUrl = "https://dummy.com";
-//        CategoryMapper.RawCategory rawCategory1 = new CategoryMapper.RawCategory();
-//        CategoryMapper.RawCategory rawCategory2 = new CategoryMapper.RawCategory();
-//
-//        CategoryDAO spyDAO = Mockito.spy(SUT);
-//        doReturn(List.of(rawCategory1, rawCategory2)).when(spyDAO).fetchRawCategories(dummyUrl);
-//
-//        List<CategoryMapper.NewCategory> result = spyDAO.mapFetchedCategories(dummyUrl);
-//
-//        assertThat(result, hasSize(2));
-//        result.forEach(entry -> assertThat(entry, instanceOf(CategoryMapper.NewCategory.class)));
-//    }
+    @Test
+    public void should_map_raw_categories_to_new_categories_when_mapFetchedCategories_is_called() {
+        CategoryMapper.RawCategory rawCategory1 = new CategoryMapper.RawCategory();
+        CategoryMapper.RawCategory rawCategory2 = new CategoryMapper.RawCategory();
+        Map<String, CategoryMapper.RawCategory> dummyCache = new HashMap<>();
+        dummyCache.put("dummyId1", rawCategory1);
+        dummyCache.put("dummyId2", rawCategory2);
+
+        CategoryDAO spyDAO = Mockito.spy(SUT);
+
+        List<CategoryMapper.NewCategory> result = spyDAO.mapFetchedCategories(dummyCache);
+
+        assertThat(result, hasSize(2));
+        result.forEach(entry -> assertThat(entry, instanceOf(CategoryMapper.NewCategory.class)));
+    }
 }
