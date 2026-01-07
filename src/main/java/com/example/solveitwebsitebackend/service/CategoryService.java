@@ -22,7 +22,7 @@ public class CategoryService {
         this.dao = dao;
     }
 
-    public void refreshCache(List<String> githubUrls) {
+    public Map<String, CategoryMapper.RawCategory> setRawCache(String githubUrl) {
 
         int maxRetries = 3;
         int attempts = 0;
@@ -31,31 +31,46 @@ public class CategoryService {
             attempts++;
 
             try {
-                System.out.println("Attempt " + attempts + " to refresh categories cache...");
+                System.out.println("Attempt " + attempts + " to refresh single categories cache...");
 
-                List<CategoryMapper.NewCategory> categories = dao.mapFetchedCategories(githubUrls);
+                List<CategoryMapper.RawCategory> rawCategories = dao.fetchRawCategories(githubUrl);
 
-                Map<String, CategoryMapper.NewCategory> newCache = new HashMap<>();
-                for (CategoryMapper.NewCategory category : categories) {
-                    newCache.put(category.id, category);
+                Map<String, CategoryMapper.RawCategory> newCache = new HashMap<>();
+                for (CategoryMapper.RawCategory category : rawCategories) {
+                    newCache.put(category.name, category);
                 }
 
-                categoryCache = newCache;
-
-                System.out.println("Successfully updated categories cache!");
-                return;
+                System.out.println("Successfully retrieved single categories cache!");
+                return newCache;
 
             } catch (DAOExceptions.FetchException | DAOExceptions.ParseException e) {
                 System.err.println("Refresh failed on attempt " + attempts + ": " + e.getMessage());
 
                 if (attempts >= maxRetries) {
-                    System.err.println("All retries failed. Keeping existing categories cache.");
+                    System.err.println("All retries failed. Continue without this categories cache.");
                 } else {
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ignored) {}
                 }
             }
+        }
+        return null;
+    }
+
+    public void  refreshCache(Map<String, CategoryMapper.RawCategory> combinedCache) {
+        if (combinedCache.isEmpty()) {
+            System.err.println("No single cache was retrieved. Keeping existing categories cache.");
+        } else {
+            List<CategoryMapper.NewCategory> categories = dao.mapFetchedCategories(combinedCache);
+
+            Map<String, CategoryMapper.NewCategory> newCache = new HashMap<>();
+            for (CategoryMapper.NewCategory category : categories) {
+                newCache.put(category.id, category);
+            }
+
+            categoryCache = newCache;
+            System.out.println("Successfully updated categories cache!");
         }
     }
 
