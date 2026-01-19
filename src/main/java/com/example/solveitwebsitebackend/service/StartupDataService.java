@@ -16,8 +16,7 @@ import java.util.Map;
 public class StartupDataService {
 
     @Autowired CategoryViewService categoryViewService;
-    @Autowired
-    CategoryService categoryService;
+    @Autowired CategoryService categoryService;
     @Autowired TechniqueService techniqueService;
     @Autowired WeaknessService weaknessService;
     @Autowired MitigationService mitigationService;

@@ -61,8 +61,8 @@ public class TestCategoryViewService {
         var dummyCategoryView1 = categoryViewService.getCategoryViewById("id1");
         var dummyCategoryView2 = categoryViewService.getCategoryViewById("id2");
 
-        assertEquals("category2", dummyCategoryView1.categories.getLast());
-        assertEquals("category3", dummyCategoryView2.categories.getFirst());
+        assertEquals("category2", dummyCategoryView1.categories.get(dummyCategoryView1.categories.size() -1));
+        assertEquals("category3", dummyCategoryView2.categories.get(0));
     }
 
     @Test
