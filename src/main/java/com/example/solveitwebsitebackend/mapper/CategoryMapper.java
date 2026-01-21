@@ -5,10 +5,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CategoryMapper {
 
-    private static final AtomicInteger COUNTER = new AtomicInteger(1000);
+    private static AtomicInteger COUNTER = new AtomicInteger(1000);
 
     private static String generateID() {
         return "C" + COUNTER.getAndIncrement();
+    }
+
+    public void resetCounter() {
+        COUNTER = new AtomicInteger(1000);
     }
 
     public static class RawCategory {

@@ -2,7 +2,6 @@ package com.example.solveitwebsitebackend.dao;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
 import com.example.solveitwebsitebackend.mapper.CategoryMapper;
@@ -31,8 +30,8 @@ public class CategoryDAO {
         }
     }
 
-    public List<CategoryMapper.NewCategory> mapFetchedCategories(Map<String, CategoryMapper.RawCategory> combinedCache) {
-        return combinedCache.values().stream().map(CategoryMapper::map).toList();
+    public CategoryMapper.NewCategory mapFetchedCategory(CategoryMapper.RawCategory category) {
+        return CategoryMapper.map(category);
     }
 
 //    public void printMappedCategories(List<String> urls) {

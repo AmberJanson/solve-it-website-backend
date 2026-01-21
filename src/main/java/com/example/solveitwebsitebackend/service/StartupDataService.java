@@ -15,18 +15,22 @@ import java.util.Map;
 @Service
 public class StartupDataService {
 
+    CategoryMapper categoryMapper = new CategoryMapper();
+
     @Autowired CategoryViewService categoryViewService;
     @Autowired CategoryService categoryService;
     @Autowired TechniqueService techniqueService;
     @Autowired WeaknessService weaknessService;
     @Autowired MitigationService mitigationService;
 
+    Map<String, CategoryMapper.NewCategory> newCache;
+
     @EventListener(ApplicationReadyEvent.class)
     @Scheduled(cron = "0 0 0 * * *")
     public void loadAllData() {
         System.out.println("Loading all entity caches...");
 
-        Map<String, CategoryMapper.RawCategory> combinedCache = new HashMap<>();
+        Map<String, CategoryMapper.NewCategory> combinedCache = new HashMap<>();
         List<String> categoryUrls = Arrays.asList(
                 "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json",
                 "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-examples/refs/heads/main/reorganization_of_techniques/dfrws.json"
@@ -34,12 +38,13 @@ public class StartupDataService {
 
         categoryViewService.refreshCache("json/CategoryView.json");
         for (String categoryUrl : categoryUrls) {
-            Map<String, CategoryMapper.RawCategory> rawCache =  categoryService.setRawCache(categoryUrl);
-            if (rawCache != null) {
-                combinedCache.putAll(rawCache);
+            newCache =  categoryService.setSingleCache(categoryUrl);
+            if (newCache != null) {
+                combinedCache.putAll(newCache);
             }
         }
         categoryService.refreshCache(combinedCache);
+        categoryMapper.resetCounter();
         techniqueService.refreshCache("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/techniques/");
         weaknessService.refreshCache("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/weaknesses/");
         mitigationService.refreshCache("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/mitigations/");

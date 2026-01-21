@@ -22,7 +22,7 @@ public class CategoryService {
         this.dao = dao;
     }
 
-    public Map<String, CategoryMapper.RawCategory> setRawCache(String githubUrl) {
+    public Map<String, CategoryMapper.NewCategory> setSingleCache(String githubUrl) {
 
         int maxRetries = 3;
         int attempts = 0;
@@ -35,9 +35,12 @@ public class CategoryService {
 
                 List<CategoryMapper.RawCategory> rawCategories = dao.fetchRawCategories(githubUrl);
 
-                Map<String, CategoryMapper.RawCategory> newCache = new HashMap<>();
+                Map<String, CategoryMapper.NewCategory> newCache = new HashMap<>();
                 for (CategoryMapper.RawCategory category : rawCategories) {
-                    newCache.put(category.name, category);
+
+                    CategoryMapper.NewCategory mapped = dao.mapFetchedCategory(category);
+
+                    newCache.put(mapped.id, mapped);
                 }
 
                 System.out.println("Successfully retrieved single categories cache!");
@@ -58,17 +61,10 @@ public class CategoryService {
         return null;
     }
 
-    public void  refreshCache(Map<String, CategoryMapper.RawCategory> combinedCache) {
-        if (combinedCache.isEmpty()) {
+    public void  refreshCache(Map<String, CategoryMapper.NewCategory> newCache) {
+        if (newCache == null || newCache.isEmpty()) {
             System.err.println("No single cache was retrieved. Keeping existing categories cache.");
         } else {
-            List<CategoryMapper.NewCategory> categories = dao.mapFetchedCategories(combinedCache);
-
-            Map<String, CategoryMapper.NewCategory> newCache = new HashMap<>();
-            for (CategoryMapper.NewCategory category : categories) {
-                newCache.put(category.id, category);
-            }
-
             categoryCache = newCache;
             System.out.println("Successfully updated categories cache!");
         }
