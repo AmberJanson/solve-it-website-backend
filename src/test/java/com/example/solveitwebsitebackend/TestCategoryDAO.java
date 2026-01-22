@@ -14,9 +14,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -100,16 +98,11 @@ public class TestCategoryDAO {
     @Test
     public void should_map_raw_categories_to_new_categories_when_mapFetchedCategories_is_called() {
         CategoryMapper.RawCategory rawCategory1 = new CategoryMapper.RawCategory();
-        CategoryMapper.RawCategory rawCategory2 = new CategoryMapper.RawCategory();
-        Map<String, CategoryMapper.RawCategory> dummyCache = new HashMap<>();
-        dummyCache.put("dummyId1", rawCategory1);
-        dummyCache.put("dummyId2", rawCategory2);
 
         CategoryDAO spyDAO = Mockito.spy(SUT);
 
-        List<CategoryMapper.NewCategory> result = spyDAO.mapFetchedCategories(dummyCache);
+        CategoryMapper.NewCategory result = spyDAO.mapFetchedCategory(rawCategory1);
 
-        assertThat(result, hasSize(2));
-        result.forEach(entry -> assertThat(entry, instanceOf(CategoryMapper.NewCategory.class)));
+        assertThat(result, instanceOf(CategoryMapper.NewCategory.class));
     }
 }
