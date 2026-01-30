@@ -1,9 +1,7 @@
 package com.example.solveitwebsitebackend.service;
 
+import com.example.solveitwebsitebackend.dao.CategoryViewDAO;
 import com.example.solveitwebsitebackend.mapper.CategoryViewMap;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,19 +13,13 @@ import java.util.Map;
 @Service
 public class CategoryViewService {
 
+    private final CategoryViewDAO dao;
+
     private Map<String, CategoryViewMap.CategoryView> categoryViewCache = new HashMap<>();
 
-    public List<CategoryViewMap.CategoryView> loadCategoryViews(String filepath) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
+    public CategoryViewService(CategoryViewDAO dao) { this.dao = dao; }
 
-        return mapper.readValue(
-                new ClassPathResource(filepath).getInputStream(),
-                new TypeReference<>() {
-                }
-        );
-    }
-
-    public void refreshCache(String filepath) {
+    public void refreshCache(String githubUrl) {
 
         int maxRetries = 3;
         int attempts = 0;
@@ -38,7 +30,7 @@ public class CategoryViewService {
             try {
                 System.out.println("Attempt " + attempts + " to refresh categoryViews cache...");
 
-                List<CategoryViewMap.CategoryView> categoryViews = loadCategoryViews(filepath);
+                List<CategoryViewMap.CategoryView> categoryViews = dao.fetchCategoryViews(githubUrl);
 
                 Map<String, CategoryViewMap.CategoryView> newCache = new HashMap<>();
                 for (CategoryViewMap.CategoryView categoryView : categoryViews) {

@@ -33,18 +33,22 @@ public class StartupDataService {
         Map<String, CategoryMapper.NewCategory> combinedCache = new HashMap<>();
         List<String> categoryUrls = Arrays.asList(
                 "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json",
-                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-examples/refs/heads/main/reorganization_of_techniques/dfrws.json"
+                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-examples/refs/heads/main/reorganization_of_techniques/dfrws.json",
+                "https://raw.githubusercontent.com/AmberJanson/solve-it-website-backend/refs/heads/dev/src/main/resources/json/bdff.json",
+                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-examples/refs/heads/main/reorganization_of_techniques/carrier.json",
+                "https://raw.githubusercontent.com/AmberJanson/solve-it-website-backend/refs/heads/dev/src/main/resources/json/edrm.json"
         );
 
-        categoryViewService.refreshCache("json/CategoryView.json");
+        categoryViewService.refreshCache("https://raw.githubusercontent.com/AmberJanson/solve-it-website-backend/refs/heads/dev/src/main/resources/json/CategoryView.json");
         for (String categoryUrl : categoryUrls) {
             newCache =  categoryService.setSingleCache(categoryUrl);
             if (newCache != null) {
                 combinedCache.putAll(newCache);
             }
+            categoryMapper.setCounterForNextView();
         }
         categoryService.refreshCache(combinedCache);
-        categoryMapper.resetCounter();
+        categoryMapper.resetCounters();
         techniqueService.refreshCache("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/techniques/");
         weaknessService.refreshCache("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/weaknesses/");
         mitigationService.refreshCache("https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/mitigations/");

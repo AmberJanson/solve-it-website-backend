@@ -6,13 +6,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class CategoryMapper {
 
     private static AtomicInteger COUNTER = new AtomicInteger(1000);
+    private static AtomicInteger base_COUNTER = new AtomicInteger(1000);
 
     private static String generateID() {
         return "C" + COUNTER.getAndIncrement();
     }
 
-    public void resetCounter() {
+    public void resetCounters() {
         COUNTER = new AtomicInteger(1000);
+        base_COUNTER = new AtomicInteger(1000);
+    }
+
+    public void setCounterForNextView() {
+        System.out.println("Before: " + base_COUNTER + "base and " + COUNTER + " normal");
+        base_COUNTER.getAndAdd(50);
+        COUNTER.set(base_COUNTER.get());
+        System.out.println("After: " + base_COUNTER + "base and " + COUNTER + " normal");
+
     }
 
     public static class RawCategory {
@@ -20,12 +30,15 @@ public class CategoryMapper {
         public String description;
         public List<String> techniques;
 
+        public List<String> references;
+
         public RawCategory() {}
 
-        public RawCategory(String name, String description, List<String> techniques) {
+        public RawCategory(String name, String description, List<String> techniques, List<String> references) {
             this.name = name;
             this.description = description;
             this.techniques = techniques;
+            this.references = references;
         }
     }
 
