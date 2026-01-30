@@ -52,7 +52,7 @@
     {"name":"Presentation",
     "description": "Presenting evidence in hearings, depositions or trials",
     "techniques": ["T1091", "T1094", "T1092", "T1093"]
-    },
+    }
 
 
 ]
