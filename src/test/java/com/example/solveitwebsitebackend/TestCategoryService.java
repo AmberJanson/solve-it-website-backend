@@ -56,10 +56,12 @@ public class TestCategoryService {
         String dummyUrl = "https://dummy.com";
 
         List<String> techniques1 = List.of("technique1", "technique2");
-        CategoryMapper.RawCategory dummyCategory1 = new CategoryMapper.RawCategory("name1", "description1", techniques1);
+        List<String> references1 = List.of("reference1", "reference2");
+        CategoryMapper.RawCategory dummyCategory1 = new CategoryMapper.RawCategory("name1", "description1", techniques1, references1);
 
         List<String> techniques2 = List.of("technique3", "technique4");
-        CategoryMapper.RawCategory dummyCategory2 = new CategoryMapper.RawCategory("name2", "description2", techniques2);
+        List<String> references2 = List.of("reference3", "reference4");
+        CategoryMapper.RawCategory dummyCategory2 = new CategoryMapper.RawCategory("name2", "description2", techniques2, references2);
 
         CategoryMapper.NewCategory dummyNewCategory1 = new CategoryMapper.NewCategory("id1", "name1", "description1", techniques1);
         CategoryMapper.NewCategory dummyNewCategory2 = new CategoryMapper.NewCategory("id2", "name2", "description2", techniques2);
