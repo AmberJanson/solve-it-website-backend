@@ -76,45 +76,11 @@ public class TechniqueDAO {
         }
     }
 
-//    //--Fetch data to print
-//    public List<JsonNode> fetchTechniques(String techniqueGithubUrl) {
-//        try {
-//            JsonNode filesArray = objectMapper.readTree(restTemplate.getForObject(techniqueGithubUrl, String.class));
-//
-//            List<JsonNode> techniques = new ArrayList<>();
-//
-//            for (JsonNode fileNode : filesArray) {
-//                if ("file".equals(fileNode.get("type").asText()) && fileNode.get("name").asText().endsWith(".json")) {
-//                    String singleUrl = fileNode.get("download_url").asText();
-//                    String jsonContent = restTemplate.getForObject(singleUrl, String.class);
-//
-//                    JsonNode techniqueNode = objectMapper.readTree(jsonContent);
-//                    techniques.add(techniqueNode);
-//                }
-//            }
-//
-//            return techniques;
-//        } catch (Exception e) {
-//            throw new RuntimeException("Failed to fetch techniques dynamically");
-//        }
-//    }
-//
-//    //--Print fetched data--
-//    public void printFetchedTechniques(String url) {
-//        List<JsonNode> jsonNodes = fetchTechniques(url);
-//        for (JsonNode jsonNode : jsonNodes) {
-//            System.out.println(jsonNode.toPrettyString());
-//        }
-//    }
-
     public static void main(String[] args) {
         TechniqueDAO dao = new TechniqueDAO();
 
         dao.printMappedTechniques(
                 "https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/techniques/"
         );
-//        dao.printFetchedTechniques(
-//                "https://api.github.com/repos/SOLVE-IT-DF/solve-it/contents/data/techniques/"
-//        );
     }
 }

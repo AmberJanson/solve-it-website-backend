@@ -1,6 +1,5 @@
 package com.example.solveitwebsitebackend.dao;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
@@ -32,50 +31,5 @@ public class CategoryDAO {
 
     public CategoryMapper.NewCategory mapFetchedCategory(CategoryMapper.RawCategory category) {
         return CategoryMapper.map(category);
-    }
-
-//    public void printMappedCategories(List<String> urls) {
-//        try {
-//            List<CategoryMapper.NewCategory> categories = mapFetchedCategories(urls);
-//            String categoriesJson = objectMapper
-//                    .writerWithDefaultPrettyPrinter()
-//                    .writeValueAsString(categories);
-//
-//            System.out.println(categoriesJson);
-//        } catch (Exception e) {
-//            throw new RuntimeException("Failed to print categories in Json", e);
-//        }
-//    }
-
-//    //--Fetch data to print--
-//    public JsonNode fetchCategories(String categoryGithubUrl) {
-//        try {
-//            String categoriesJson = restTemplate.getForObject(categoryGithubUrl, String.class);
-//
-//            return objectMapper.readTree(categoriesJson);
-//        } catch (Exception e) {
-//            throw new RuntimeException("Failed to fetch or parse Category json-file", e);
-//        }
-//    }
-//
-//    //--Print fetched data--
-//    public void printFetchedCategories(String url) {
-//        JsonNode jsonNode = fetchCategories(url);
-//        System.out.println(jsonNode.toPrettyString());
-//    }
-
-    public static void main(String[] args) {
-        CategoryDAO dao = new CategoryDAO();
-
-        List<String> categoryUrls = Arrays.asList(
-                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json",
-                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-examples/refs/heads/main/reorganization_of_techniques/dfrws.json"
-        );
-
-//        dao.printMappedCategories(categoryUrls);
-
-//        dao.printFetchedCategories(
-//                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json"
-//        );
     }
 }
