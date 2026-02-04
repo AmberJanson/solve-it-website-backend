@@ -2,15 +2,37 @@
   {
     "id": "V1000",
     "name": "SOLVE-IT",
-    "short_description": "Lorem ipsum",
-    "long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec ultricies elit, at sagittis erat. Maecenas vel eleifend massa. Aenean vitae odio dictum, rutrum lectus non, vestibulum mi. Mauris non velit ex. Donec vel rhoncus velit, vel finibus orci. Cras euismod porta ipsum et lobortis. Proin placerat accumsan malesuada. Vestibulum sed eros non turpis tincidunt tristique. Phasellus fermentum mi pharetra, vulputate ante id, placerat purus. Praesent non tincidunt massa, in sollicitudin velit. Nulla ultrices orci tellus, sit amet facilisis quam malesuada vel. In tempor risus vitae lacus condimentum, non tincidunt felis aliquam. Maecenas quis vestibulum ante.",
+    "short_description": "Systematic Objective-based Listing of Various Established (Digital) Investigation Techniques, 2025",
+    "long_description": "This view is the standard categorisation of digital forensic techniques, inspired by the MITTRE ATT&CK cybersecurity resource. This knowledge base is created and described by Chris Hargreaves, Harm van Beek and Eoghan Casey in their paper presented on DFRWS EU 2025 SOLVE-IT: A proposed digital forensics knowledge base inspired by MITTRE ATT&CK. Sciencedirect (FSI).",
     "categories": ["C1000", "C1001", "C1002", "C1003", "C1004", "C1005", "C1006", "C1007", "C1008", "C1009", "C1010", "C1011", "C1012", "C1013", "C1014", "C1015", "C1016", "C1017", "C1018"]
   },
   {
     "id": "V1001",
     "name": "DFRWS",
-    "short_description": "Lorem ipsum",
-    "long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec ultricies elit, at sagittis erat. Maecenas vel eleifend massa. Aenean vitae odio dictum, rutrum lectus non, vestibulum mi. Mauris non velit ex. Donec vel rhoncus velit, vel finibus orci. Cras euismod porta ipsum et lobortis. Proin placerat accumsan malesuada. Vestibulum sed eros non turpis tincidunt tristique. Phasellus fermentum mi pharetra, vulputate ante id, placerat purus. Praesent non tincidunt massa, in sollicitudin velit. Nulla ultrices orci tellus, sit amet facilisis quam malesuada vel. In tempor risus vitae lacus condimentum, non tincidunt felis aliquam. Maecenas quis vestibulum ante.",
-    "categories": ["C1019", "C1020", "C1021", "C1022", "C1023", "C1024", "C1025"]
+    "short_description": "Standard DFRWS digital forensic investigation model, 2001 ",
+    "long_description": "The standard agreed digital forensic investigation workflow at DFRWS 201 USA conference. A Roadmap for Digital Forensic Research, a collective work of all DFRWS attendees.",
+    "categories": ["C1050", "C1051", "C1052", "C1053", "C1054", "C1055", "C1056"]
+  },
+  {
+    "id": "V1002",
+    "name": "BDFF",
+    "short_description": "A Standard digital forensic framework, developed by NMa (The Netherlands), 2003",
+    "long_description": "This framework was created in 2003 by Bart Stout and Jos Griffioen, former employees of The Dutch Competition Authority(NMa), 2003. The motive for this framework was the need for a more robust tailor-made workflow for the big and complex and long-lasting digital forensic (and e-discovery) investigations, which had to be performed. It is a non-linear process, but an iterative process between the different phases. For 15 years, this framework is now a standard in the education program of the Digital Forensic Education programs of the Leiden University of Applied Sciences.",
+    "categories": ["C1100", "C1101", "C1102", "C1103", "C1104", "C1105", "C1106"]
+  },
+  {
+    "id": "V1003",
+    "name": "CARRIER",
+    "short_description": "Categorisation by B. Carrier, 2002",
+    "long_description": "This categorisation of the phases of a digital forensics process, is proposed by Brian Carrier in 2002, in his paper Open Source Digital Forensics Tools. (www.digital-evidence.org)",
+    "categories": ["C1150", "C1151", "C1152", "C1153"]
+  },
+  {
+    "id": "V1004",
+    "name": "EDRM",
+    "short_description": "The Electronic Discovery Reference Model (EDRM), 2005",
+    "long_description": "The EDRM is an E-Discovery framework, created by George Socha,Jr and Tom Gelbmann. It gives guidance for the complex e-discovery processes starting with Governance and ending at the Presentation phase, helping to reduce data volumes and increase relevance of the gathered data. EDRM.net. It is a non-linear process, but an iterative process between the different phases.",
+    "categories": ["C1200", "C1201", "C1202", "C1203", "C1204", "C1205", "C1206", "C1207", "C1208" ]
   }
+
 ]

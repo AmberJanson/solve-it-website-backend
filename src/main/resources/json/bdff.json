@@ -1,0 +1,56 @@
+[
+    {"name":"Preparation",
+    "description": "Crime detection, Preliminary Investigation, Forming Investigation Team, Setting up Crime Lab, procedures for CoC/CoE and other case management",
+    "techniques": ["T1005", "T1006", "T1009", "T1008", "T1007", "T1104", "T1090", "T1095", "T1089","T1101", "T1119"]
+    },
+
+    {"name":"Preservation/Acquisition",
+    "description": "Identification and Preservation relevant devices, data. Acquisition of this data, including recovery techniques, lossless compression, data reduction, and sampling.",
+    "techniques": ["T0001","T1014", "T1011", "T1010", "T1012", "T1013",
+		    "T1028", "T1023", "T1024", "T1029", "T1030", "T1031",
+		    "T1032", "T1033", "T1034", "T1035", "T1036", "T1037", "T1038", "T1039", "T1040", "T1041",
+                    "T1027", "T1002", "T1016", "T1003", "T1019",
+                    "T1022", "T1020", "T1017", "T1015", "T1039",
+                    "T1018", "T1004", "T1026", "T1025", "T1110", "T1104", "T1111", "T1112", "T1113", "T1114"]
+    },
+
+    {"name":"Processing",
+    "description": "Preservation, traceability, filtering, pattern matching, hidden data discovery, and hidden data extraction.",
+    "techniques": ["T1053",
+		    "T1032", "T1033", "T1034", "T1035", "T1036", "T1037", "T1038", "T1039", "T1040", "T1041",
+                    "T1062", "T1061", "T1064", "T1063",  "T1059", "T1060",
+                    "T1067", "T1065", "T1097", "T1066", "T1068", "T1096", "T1098",
+                    "T1079", "T1082", "T1081", "T1080",
+                    "T1083", "T1100", "T1120",
+                    "T1084", "T1099",
+		    "T1042", "T1043", "T1044", "T1045", "T1102", "T1150", "T1164", "T1162", "T1163", "T1116", "T1149"]
+    },
+
+    {"name":"Analysis",
+    "description": "Preservation, traceability, statistical, protocols, data mining, timeline, link, visualisation", 
+    "techniques": ["T1047", "T1048", "T1046", "T1054", "T1056", "T1055", "T1051", "T1050", "T1049", 
+    "T1125", "T1126", "T1127", "T1124", "T1121", "T1122", "T1123", "T1151", "T1118", "T1079", "T1080", "T1106", "T1081", "T1082",
+    "T1058", "T1057", "T1052", "T1085",
+    "T1087", "T1088", "T1086", "T1128", "T1129", "T1130", "T1131", "T1132",
+    "T1069", "T1073", "T1072", "T1078", "T1071", "T1070", "T1075", "T1077", "T1074", "T1105", "T1107", "T1108", "T1109", "T1133"]
+    },
+
+    {"name":"Verification",
+    "description": "Traceability, transparency, clarification, checking the CoE/CoC",
+    "techniques": ["T1042", "T1091", "T1092"]
+    },
+
+    {"name":"Presentation",
+    "description": "Documentation, expert testimony, clarification, mission impact statement, recommended countermeasures, and statistical interpretation.",
+    "techniques": ["T1091", "T1094", "T1092", "T1093", "T1103", "T1115", "T1117"]
+    },
+
+    {"name":"Archiving",
+    "description": "Long term preservation of original sources, found artefacts, used tools and hardware",
+    "techniques": ["T1010", "T1011"]
+    }
+
+    
+
+
+]
