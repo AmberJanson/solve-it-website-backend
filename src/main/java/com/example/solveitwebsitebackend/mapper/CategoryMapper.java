@@ -18,11 +18,8 @@ public class CategoryMapper {
     }
 
     public void setCounterForNextView() {
-        System.out.println("Before: " + base_COUNTER + "base and " + COUNTER + " normal");
         base_COUNTER.getAndAdd(50);
         COUNTER.set(base_COUNTER.get());
-        System.out.println("After: " + base_COUNTER + "base and " + COUNTER + " normal");
-
     }
 
     public static class RawCategory {
