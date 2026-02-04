@@ -1,5 +1,6 @@
 package com.example.solveitwebsitebackend.dao;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.example.solveitwebsitebackend.exceptions.DAOExceptions;
@@ -29,23 +30,22 @@ public class CategoryDAO {
         }
     }
 
-    public List<CategoryMapper.NewCategory> mapFetchedCategories(String categoriesGithubUrl) {
-        List<CategoryMapper.RawCategory> rawCategoryList = fetchRawCategories(categoriesGithubUrl);
-        return rawCategoryList.stream().map(CategoryMapper::map).toList();
+    public CategoryMapper.NewCategory mapFetchedCategory(CategoryMapper.RawCategory category) {
+        return CategoryMapper.map(category);
     }
 
-    public void printMappedCategories(String url) {
-        try {
-            List<CategoryMapper.NewCategory> categories = mapFetchedCategories(url);
-            String categoriesJson = objectMapper
-                    .writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(categories);
-
-            System.out.println(categoriesJson);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to print categories in Json", e);
-        }
-    }
+//    public void printMappedCategories(List<String> urls) {
+//        try {
+//            List<CategoryMapper.NewCategory> categories = mapFetchedCategories(urls);
+//            String categoriesJson = objectMapper
+//                    .writerWithDefaultPrettyPrinter()
+//                    .writeValueAsString(categories);
+//
+//            System.out.println(categoriesJson);
+//        } catch (Exception e) {
+//            throw new RuntimeException("Failed to print categories in Json", e);
+//        }
+//    }
 
 //    //--Fetch data to print--
 //    public JsonNode fetchCategories(String categoryGithubUrl) {
@@ -67,8 +67,12 @@ public class CategoryDAO {
     public static void main(String[] args) {
         CategoryDAO dao = new CategoryDAO();
 
-        dao.printMappedCategories(
-                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json");
+        List<String> categoryUrls = Arrays.asList(
+                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json",
+                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-examples/refs/heads/main/reorganization_of_techniques/dfrws.json"
+        );
+
+//        dao.printMappedCategories(categoryUrls);
 
 //        dao.printFetchedCategories(
 //                "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it/refs/heads/main/data/solve-it.json"

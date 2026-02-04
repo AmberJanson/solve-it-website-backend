@@ -5,10 +5,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CategoryMapper {
 
-    private static final AtomicInteger COUNTER = new AtomicInteger(1000);
+    private static AtomicInteger COUNTER = new AtomicInteger(1000);
+    private static AtomicInteger base_COUNTER = new AtomicInteger(1000);
 
     private static String generateID() {
         return "C" + COUNTER.getAndIncrement();
+    }
+
+    public void resetCounters() {
+        COUNTER = new AtomicInteger(1000);
+        base_COUNTER = new AtomicInteger(1000);
+    }
+
+    public void setCounterForNextView() {
+        base_COUNTER.getAndAdd(50);
+        COUNTER.set(base_COUNTER.get());
     }
 
     public static class RawCategory {
@@ -16,12 +27,15 @@ public class CategoryMapper {
         public String description;
         public List<String> techniques;
 
+        public List<String> references;
+
         public RawCategory() {}
 
-        public RawCategory(String name, String description, List<String> techniques) {
+        public RawCategory(String name, String description, List<String> techniques, List<String> references) {
             this.name = name;
             this.description = description;
             this.techniques = techniques;
+            this.references = references;
         }
     }
 
